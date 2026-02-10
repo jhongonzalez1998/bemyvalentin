@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Keyla ❤️</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffdde1;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 { color: #d63384; font-size: 1.8rem; }
+
+        .botones {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #btnSi { background-color: #4caf50; color: white; }
+        
+        #btnNo {
+            background-color: #f44336;
+            color: white;
+            position: relative; /* Importante para que se mueva */
+        }
+
+        .oculto { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <h1>Keyla, ¿quieres ser mi Valentín? ❤️</h1>
+        <div class="botones">
+            <button id="btnSi">¡SÍ!</button>
+            <button id="btnNo">No</button>
+        </div>
+    </div>
+
+    <div class="card oculto" id="successCard">
+        <h1>¡SABÍA QUE DIRÍAS QUE SÍ! 😍</h1>
+        <p>Eres la mejor mi amor. Pronto tendrás más información.</p>
+        <div style="font-size: 50px;">💖✨</div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btnNo');
+        const btnSi = document.getElementById('btnSi');
+        const mainCard = document.getElementById('mainCard');
+        const successCard = document.getElementById('successCard');
+
+        // Función para mover el botón "No"
+        btnNo.addEventListener('mouseover', () => {
+            // Calculamos ancho y alto de la ventana
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+            
+            btnNo.style.position = 'absolute';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        });
+
+        // Al hacer clic en el Sí
+        btnSi.addEventListener('click', () => {
+            mainCard.classList.add('oculto');
+            successCard.classList.remove('oculto');
+        });
+    </script>
+</body>
+</html>
