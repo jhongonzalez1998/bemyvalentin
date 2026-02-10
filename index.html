@@ -5,162 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Keyla ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
-
-<style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
-        font-family: 'Montserrat', sans-serif; /* Tipografía base */
-        overflow: hidden;
-    }
-
-    .card {
-        background: white;
-        padding: 40px;
-        border-radius: 30px;
-        text-align: center;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        width: 350px;
-        position: relative;
-        z-index: 10;
-        border: 2px solid #fff;
-    }
-
-    h1 { 
-        color: #d63384; 
-        font-family: 'Pacifico', cursive; /* Tipografía romántica */
-        font-size: 2.2rem;
-        margin-bottom: 20px;
-        font-weight: normal;
-    }
-
-    p {
-        font-size: 1.1rem;
-        color: #555;
-    }
-
-    button {
-        padding: 12px 25px;
-        font-size: 16px;
-        font-weight: 700;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        margin: 10px;
-        font-family: 'Montserrat', sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: transform 0.2s;
-    }
-
-    #btnSi { 
-        background: #ff4d6d; 
-        color: white;
-        box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
-    }
-
-    #btnSi:hover { transform: scale(1.1); }
-
-    #btnNo { 
-        background: #6c757d; 
-        color: white; 
-        position: absolute; 
-        transition: all 0.1s ease;
-    }
-
-    .oculto { display: none; }
-
-    .corazon { 
-    position: fixed; /* Esto hace que floten sin empujar nada */
-    top: -50px; 
-    font-size: 24px;
-    user-select: none;
-    pointer-events: none; /* Para que Keyla no pueda hacerles clic por error */
-    z-index: 999;
-    animation: caer 3s linear forwards; 
-    }
-        @keyframes caer { 
-        to { 
-            transform: translateY(110vh) rotate(360deg); 
-        } 
-    }
-
-</style>
-</head>
-<body>
-
-    <audio id="musica" loop prefetch>
-        <source src="musica.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="card" id="mainCard">
-        <h1>Keyla, Will you be my Valentine? ❤️</h1>
-        <div class="botones">
-            <button id="btnSi">¡SÍ!</button>
-            <button id="btnNo">No</button>
-        </div>
-    </div>
-
-    <div class="card oculto" id="successCard">
-        <h1>¡SABÍA QUE DIRÍAS QUE SÍ! 😍</h1>
-        <p>Eres la mejor persona del mundo.</p>
-        <div style="font-size: 60px; margin-top: 20px;">🌹✨</div>
-    </div>
-
-    <script>
-        const btnNo = document.getElementById('btnNo');
-        const btnSi = document.getElementById('btnSi');
-        const mainCard = document.getElementById('mainCard');
-        const successCard = document.getElementById('successCard');
-        const musica = document.getElementById('musica');
-
-        // Función robusta para iniciar el audio
-        function reproducir() {
-            musica.play().catch(e => {
-                console.log("El navegador bloqueó el autoplay, esperando interacción...");
-            });
+    
+    <style>
+        * {
+            box-sizing: border-box;
         }
 
-        // MOVER BOTÓN NO (Al pasar el mouse o tocar en móviles)
-        const moverBoton = () => {
-            reproducir(); // Intentar sonar música en cada intento
-            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
-            
-            btnNo.style.position = 'fixed';
-            btnNo.style.left = x + 'px';
-            btnNo.style.top = y + 'px';
-        };
-
-        btnNo.addEventListener('mouseenter', moverBoton);
-        btnNo.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Evita clics accidentales en móvil
-            moverBoton();
-        });
-
-        // ACCIÓN AL HACER CLIC EN SÍ
-        btnSi.addEventListener('click', () => {
-            reproducir();
-            mainCard.classList.add('oculto');
-            successCard.classList.remove('oculto');
-            lanzarCorazones();
-        });
-
-        function lanzarCorazones() {
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                document.body.appendChild(heart);
-                setTimeout(() => { heart.remove(); }, 5000);
-            }, 200);
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden; /* Evita scrolls innecesarios */
         }
-    </script>
-</body>
-</html>
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            width: 350px;
+            position: relative;
+            z-index: 100; /* Asegura que la carta esté sobre los corazones */
+        }
+
+        h1 { 
+            color: #d63384; 
+            font-family: 'Pacifico', cursive; 
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        .botones {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80px;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            transition: transform 0.2s;
+        }
+
+        #btnSi { 
+            background: #ff4d6d; 
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        #btnNo { 
+            background: #6c757d; 
+            color: white; 
+            position: absolute; /* Para que se mueva libremente */
+            z-index: 101;
+        }
+
+        .oculto { display: none; }
+
+        /* Estilo de los corazones flotantes */
+        .corazon { 
+            position: fixed; 
+            top: -50px; 
+            font-size: 24px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
