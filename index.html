@@ -6,76 +6,88 @@
     <title>Para Keyla ❤️</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            touch-action: manipulation; /* Mejora respuesta en móviles */
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            text-align: center;
-            width: 85%;
-            max-width: 400px;
-            z-index: 10;
-            position: relative;
-        }
-
-        h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 1.5rem; }
-
-        .botones {
+            height: 100vh;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            min-height: 100px; /* Espacio para que el botón NO tenga donde moverse */
             align-items: center;
+            background: #ffdde1;
+            font-family: sans-serif;
+            overflow: hidden;
         }
-
-        button {
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
-
-        #btnSi { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
-
-        #btnNo {
-            background-color: #6c757d;
-            color: white;
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 300px;
             position: relative;
-            transition: all 0.1s ease; /* Movimiento más fluido */
+            z-index: 10;
         }
-
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        #btnSi { background: #ff4d6d; color: white; }
+        #btnNo { background: #6c757d; color: white; position: absolute; }
         .oculto { display: none; }
-
-        .heart {
-            position: fixed;
-            top: -10vh;
-            font-size: 20px;
-            user-select: none;
-            pointer-events: none;
-            z-index: 1;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
+        .corazon { position: fixed; top: -20px; animation: caer 3s linear forwards; }
+        @keyframes caer { to { transform: translateY(110vh); } }
     </style>
 </head>
 <body>
 
-    <audio id="musica" loop prefetch>
+    <audio id="musica" loop>
         <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card" id="contenedor">
+        <div id="pregunta">
+            <h1>Keyla, ¿quieres ser mi Valentín? ❤️</h1>
+            <button id="btnSi">SÍ</button>
+            <button id="btnNo" style="left: 160px; top: 150px;">No</button>
+        </div>
+        <div id="exito" class="oculto">
+            <h1>¡SABÍA QUE DIRÍAS QUE SÍ! 😍</h1>
+            <p>💖✨🌹</p>
+        </div>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btnNo');
+        const btnSi = document.getElementById('btnSi');
+        const musica = document.getElementById('musica');
+
+        // Función para mover el botón NO
+        btnNo.addEventListener('mouseenter', () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+            musica.play().catch(() => {}); // Intenta sonar al interactuar
+        });
+
+        // Al presionar SÍ
+        btnSi.addEventListener('click', () => {
+            document.getElementById('pregunta').classList.add('oculto');
+            document.getElementById('exito').classList.remove('oculto');
+            musica.play();
+            
+            // Lluvia de corazones
+            setInterval(() => {
+                const c = document.createElement('div');
+                c.innerHTML = '❤️';
+                c.className = 'corazon';
+                c.style.left = Math.random() * 100 + 'vw';
+                document.body.appendChild(c);
+            }, 200);
+        });
+    </script>
+</body>
+</html>
