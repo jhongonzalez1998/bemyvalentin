@@ -7,9 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -32,7 +30,6 @@
             width: 380px;
             position: relative;
             z-index: 100;
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         h1 { 
@@ -40,28 +37,26 @@
             font-family: 'Playfair Display', serif; 
             font-size: 2rem;
             margin-bottom: 30px;
-            line-height: 1.2;
         }
 
         .botones {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100px;
             gap: 20px;
+            min-height: 50px;
         }
 
         button {
-            padding: 15px 30px;
+            padding: 15px 25px;
             font-size: 14px;
             font-weight: 700;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-family: 'Lora', serif;
-            letter-spacing: 1px;
             text-transform: uppercase;
-            transition: all 0.3s ease; 
+            transition: transform 0.2s ease;
         }
 
         #btnSi { 
@@ -70,26 +65,19 @@
             box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
         }
 
-        #btnSi:hover {
-            transform: scale(1.1);
-            background: #ff758f;
-        }
-
+        /* El botón NO empieza normal, sin posición absoluta */
         #btnNo { 
             background: #343a40; 
-            color: white; 
-            position: absolute; 
-            z-index: 101;
+            color: white;
+            transition: 0.1s ease all; /* Movimiento más rápido para escapar */
         }
 
-        .oculto { display: none; }
+        .oculto { display: none !important; }
 
         .corazon { 
             position: fixed; 
             top: -50px; 
             font-size: 24px;
-            user-select: none;
-            pointer-events: none;
             z-index: 1;
             animation: lluvia linear infinite;
         }
@@ -101,10 +89,10 @@
 </head>
 <body>
 
-    <div class="card" id="contenedor">
+    <div class="card">
         <h1 id="titulo">¿Keyla, me harías el honor de ser mi San Valentín?</h1>
         <div class="botones">
-            <button id="btnSi">Si</button>
+            <button id="btnSi">Por supuesto</button>
             <button id="btnNo">No</button>
         </div>
     </div>
@@ -117,8 +105,14 @@
         const titulo = document.getElementById('titulo');
         const musica = document.getElementById('miMusica');
 
-        // Lógica del botón que huye
+        // La magia para el botón que escapa
         btnNo.addEventListener('mouseover', () => {
+            // Al primer contacto, lo volvemos "absolute" para que pueda moverse por toda la pantalla
+            if (btnNo.style.position !== 'absolute') {
+                btnNo.style.position = 'absolute';
+            }
+
+            // Calculamos posiciones aleatorias evitando que se salga de la pantalla
             const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
             const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
             
@@ -126,14 +120,12 @@
             btnNo.style.top = y + 'px';
         });
 
-        // Respuesta al SI
         btnSi.addEventListener('click', () => {
-            titulo.innerHTML = "¡Me haces el hombre más feliz! ❤️<br><small style='font-size: 15px;'>Nos vemos pronto.</small>";
+            titulo.innerHTML = "¡Me haces el hombre más feliz! ❤️";
             btnNo.classList.add('oculto');
             btnSi.classList.add('oculto');
             
-            // Reproducir musica.mp3
-            musica.play().catch(e => console.error("Error al reproducir audio:", e));
+            musica.play().catch(e => console.log("Error de audio:", e));
             
             setInterval(crearCorazon, 250);
         });
@@ -145,9 +137,7 @@
             corazon.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
             corazon.style.left = Math.random() * 100 + 'vw';
             corazon.style.animationDuration = Math.random() * 2 + 3 + 's';
-            corazon.style.opacity = Math.random();
             document.body.appendChild(corazon);
-
             setTimeout(() => { corazon.remove(); }, 5000);
         }
     </script>
