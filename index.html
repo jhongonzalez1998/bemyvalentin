@@ -75,13 +75,20 @@
     .oculto { display: none; }
 
     .corazon { 
-        position: fixed; 
-        top: -20px; 
-        animation: caer 3s linear forwards; 
-        z-index: 1;
+    position: fixed; /* Esto hace que floten sin empujar nada */
+    top: -50px; 
+    font-size: 24px;
+    user-select: none;
+    pointer-events: none; /* Para que Keyla no pueda hacerles clic por error */
+    z-index: 999;
+    animation: caer 3s linear forwards; 
+    }
+        @keyframes caer { 
+        to { 
+            transform: translateY(110vh) rotate(360deg); 
+        } 
     }
 
-    @keyframes caer { to { transform: translateY(110vh) rotate(360deg); } }
 </style>
 </head>
 <body>
