@@ -14,10 +14,11 @@
             background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
             font-family: 'Arial', sans-serif;
             overflow: hidden;
+            touch-action: manipulation; /* Mejora respuesta en móviles */
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 2.5rem;
             border-radius: 30px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
@@ -25,6 +26,7 @@
             width: 85%;
             max-width: 400px;
             z-index: 10;
+            position: relative;
         }
 
         h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 1.5rem; }
@@ -33,7 +35,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
-            height: 60px;
+            min-height: 100px; /* Espacio para que el botón NO tenga donde moverse */
             align-items: center;
         }
 
@@ -44,22 +46,20 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.2s, background-color 0.2s;
+            transition: transform 0.2s;
         }
 
         #btnSi { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
-        #btnSi:hover { transform: scale(1.1); background-color: #ff758f; }
 
         #btnNo {
             background-color: #6c757d;
             color: white;
             position: relative;
-            z-index: 1000;
+            transition: all 0.1s ease; /* Movimiento más fluido */
         }
 
         .oculto { display: none; }
 
-        /* Corazones flotantes */
         .heart {
             position: fixed;
             top: -10vh;
@@ -71,82 +71,11 @@
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(110vh) rotate(360deg);
-            }
+            to { transform: translateY(110vh) rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-    <audio id="musica" loop>
+    <audio id="musica" loop prefetch>
         <source src="musica.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio.
-    </audio>
-
-    <div class="card" id="mainCard">
-        <h1>Keyla, ¿quieres ser mi Valentín? ❤️</h1>
-        <div class="botones">
-            <button id="btnSi">¡SÍ!</button>
-            <button id="btnNo">No</button>
-        </div>
-    </div>
-
-    <div class="card oculto" id="successCard">
-        <h1>¡SABÍA QUE DIRÍAS QUE SÍ! 😍</h1>
-        <p>Prepárate para algo especial.</p>
-        <div style="font-size: 60px; margin-top: 20px;">🌹✨</div>
-    </div>
-
-    <script>
-        const btnNo = document.getElementById('btnNo');
-        const btnSi = document.getElementById('btnSi');
-        const mainCard = document.getElementById('mainCard');
-        const successCard = document.getElementById('successCard');
-        const musica = document.getElementById('musica');
-
-        let musicaIniciada = false;
-
-        function iniciarMusica() {
-            if (!musicaIniciada) {
-                musica.play().catch(e => console.log("Esperando interacción..."));
-                musicaIniciada = true;
-            }
-        }
-
-        // MOVER BOTÓN NO
-        btnNo.addEventListener('mouseover', () => {
-            iniciarMusica();
-            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
-            
-            btnNo.style.position = 'absolute';
-            btnNo.style.left = x + 'px';
-            btnNo.style.top = y + 'px';
-        });
-
-        // ACCIÓN AL HACER CLIC EN SÍ
-        btnSi.addEventListener('click', () => {
-            iniciarMusica();
-            mainCard.classList.add('oculto');
-            successCard.classList.remove('oculto');
-            lanzarCorazones();
-        });
-
-        // LLUVIA DE CORAZONES
-        function lanzarCorazones() {
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                heart.style.opacity = Math.random();
-                document.body.appendChild(heart);
-
-                setTimeout(() => { heart.remove(); }, 5000);
-            }, 200);
-        }
-    </script>
-</body>
-</html>
