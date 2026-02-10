@@ -20,7 +20,7 @@
             align-items: center;
             background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden; /* Evita scrolls innecesarios */
+            overflow: hidden;
         }
 
         .card {
@@ -31,7 +31,7 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             width: 350px;
             position: relative;
-            z-index: 100; /* Asegura que la carta esté sobre los corazones */
+            z-index: 100;
         }
 
         h1 { 
@@ -71,13 +71,13 @@
         #btnNo { 
             background: #6c757d; 
             color: white; 
-            position: absolute; /* Para que se mueva libremente */
+            position: absolute; 
             z-index: 101;
+            transition: 0.3s ease all;
         }
 
         .oculto { display: none; }
 
-        /* Estilo de los corazones flotantes */
         .corazon { 
             position: fixed; 
             top: -50px; 
@@ -85,3 +85,60 @@
             user-select: none;
             pointer-events: none;
             z-index: 1;
+            animation: lluvia linear infinite;
+        }
+
+        @keyframes lluvia {
+            to { transform: translateY(110vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="contenedor">
+        <h1 id="titulo">¿Quieres ser mi San Valentín, Keyla?</h1>
+        <div class="botones">
+            <button id="btnSi">SÍ</button>
+            <button id="btnNo">NO</button>
+        </div>
+    </div>
+
+    <script>
+        const btnSi = document.getElementById('btnSi');
+        const btnNo = document.getElementById('btnNo');
+        const titulo = document.getElementById('titulo');
+
+        // Función para que el botón "NO" se mueva al azar
+        btnNo.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+            
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        });
+
+        // Lo que pasa cuando por fin dice que SÍ
+        btnSi.addEventListener('click', () => {
+            titulo.innerHTML = "¡Sabía que dirías que sí! ❤️";
+            btnNo.classList.add('oculto');
+            btnSi.classList.add('oculto');
+            
+            // Inicia la lluvia de corazones
+            setInterval(crearCorazon, 300);
+        });
+
+        function crearCorazon() {
+            const corazon = document.createElement('div');
+            corazon.classList.add('corazon');
+            corazon.innerHTML = '❤️';
+            corazon.style.left = Math.random() * 100 + 'vw';
+            corazon.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(corazon);
+
+            setTimeout(() => {
+                corazon.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
