@@ -11,51 +11,78 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffdde1;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
             font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
 
         .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             text-align: center;
-            width: 90%;
+            width: 85%;
             max-width: 400px;
+            z-index: 10;
         }
 
-        h1 { color: #d63384; font-size: 1.8rem; }
+        h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 1.5rem; }
 
         .botones {
-            margin-top: 2rem;
             display: flex;
             justify-content: center;
             gap: 20px;
+            height: 60px;
+            align-items: center;
         }
 
         button {
             padding: 12px 25px;
             font-size: 1.1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.2s;
         }
 
-        #btnSi { background-color: #4caf50; color: white; }
-        
+        #btnSi { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+        #btnSi:hover { transform: scale(1.1); background-color: #ff758f; }
+
         #btnNo {
-            background-color: #f44336;
+            background-color: #6c757d;
             color: white;
-            position: relative; /* Importante para que se mueva */
+            position: relative;
+            z-index: 1000;
         }
 
         .oculto { display: none; }
+
+        /* Corazones flotantes */
+        .heart {
+            position: fixed;
+            top: -10vh;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
+
+    <audio id="musica" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
 
     <div class="card" id="mainCard">
         <h1>Keyla, ¿quieres ser mi Valentín? ❤️</h1>
@@ -67,8 +94,8 @@
 
     <div class="card oculto" id="successCard">
         <h1>¡SABÍA QUE DIRÍAS QUE SÍ! 😍</h1>
-        <p>Eres la mejor mi amor. Pronto tendrás más información.</p>
-        <div style="font-size: 50px;">💖✨</div>
+        <p>Prepárate para algo especial.</p>
+        <div style="font-size: 60px; margin-top: 20px;">🌹✨</div>
     </div>
 
     <script>
@@ -76,10 +103,20 @@
         const btnSi = document.getElementById('btnSi');
         const mainCard = document.getElementById('mainCard');
         const successCard = document.getElementById('successCard');
+        const musica = document.getElementById('musica');
 
-        // Función para mover el botón "No"
+        let musicaIniciada = false;
+
+        function iniciarMusica() {
+            if (!musicaIniciada) {
+                musica.play().catch(e => console.log("Esperando interacción..."));
+                musicaIniciada = true;
+            }
+        }
+
+        // MOVER BOTÓN NO
         btnNo.addEventListener('mouseover', () => {
-            // Calculamos ancho y alto de la ventana
+            iniciarMusica();
             const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
             const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
             
@@ -88,11 +125,28 @@
             btnNo.style.top = y + 'px';
         });
 
-        // Al hacer clic en el Sí
+        // ACCIÓN AL HACER CLIC EN SÍ
         btnSi.addEventListener('click', () => {
+            iniciarMusica();
             mainCard.classList.add('oculto');
             successCard.classList.remove('oculto');
+            lanzarCorazones();
         });
+
+        // LLUVIA DE CORAZONES
+        function lanzarCorazones() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.opacity = Math.random();
+                document.body.appendChild(heart);
+
+                setTimeout(() => { heart.remove(); }, 5000);
+            }, 200);
+        }
     </script>
 </body>
 </html>
