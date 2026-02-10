@@ -4,76 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Keyla ❤️</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            touch-action: manipulation; /* Mejora respuesta en móviles */
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
 
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            text-align: center;
-            width: 85%;
-            max-width: 400px;
-            z-index: 10;
-            position: relative;
-        }
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+        font-family: 'Montserrat', sans-serif; /* Tipografía base */
+        overflow: hidden;
+    }
 
-        h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .card {
+        background: white;
+        padding: 40px;
+        border-radius: 30px;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        width: 350px;
+        position: relative;
+        z-index: 10;
+        border: 2px solid #fff;
+    }
 
-        .botones {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            min-height: 100px; /* Espacio para que el botón NO tenga donde moverse */
-            align-items: center;
-        }
+    h1 { 
+        color: #d63384; 
+        font-family: 'Pacifico', cursive; /* Tipografía romántica */
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        font-weight: normal;
+    }
 
-        button {
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
+    p {
+        font-size: 1.1rem;
+        color: #555;
+    }
 
-        #btnSi { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+    button {
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: 700;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        margin: 10px;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: transform 0.2s;
+    }
 
-        #btnNo {
-            background-color: #6c757d;
-            color: white;
-            position: relative;
-            transition: all 0.1s ease; /* Movimiento más fluido */
-        }
+    #btnSi { 
+        background: #ff4d6d; 
+        color: white;
+        box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+    }
 
-        .oculto { display: none; }
+    #btnSi:hover { transform: scale(1.1); }
 
-        .heart {
-            position: fixed;
-            top: -10vh;
-            font-size: 20px;
-            user-select: none;
-            pointer-events: none;
-            z-index: 1;
-            animation: fall linear forwards;
-        }
+    #btnNo { 
+        background: #6c757d; 
+        color: white; 
+        position: absolute; 
+        transition: all 0.1s ease;
+    }
 
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
-    </style>
+    .oculto { display: none; }
+
+    .corazon { 
+        position: fixed; 
+        top: -20px; 
+        animation: caer 3s linear forwards; 
+        z-index: 1;
+    }
+
+    @keyframes caer { to { transform: translateY(110vh) rotate(360deg); } }
+</style>
 </head>
 <body>
 
