@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Keyla ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -19,61 +19,67 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Lora', serif;
             overflow: hidden;
         }
 
         .card {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            width: 350px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 380px;
             position: relative;
             z-index: 100;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         h1 { 
-            color: #d63384; 
-            font-family: 'Pacifico', cursive; 
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            font-weight: normal;
+            color: #b91d73; 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem;
+            margin-bottom: 30px;
+            line-height: 1.2;
         }
 
         .botones {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 80px;
-            gap: 15px;
+            min-height: 100px;
+            gap: 20px;
         }
 
         button {
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 15px 30px;
+            font-size: 14px;
             font-weight: 700;
             border: none;
-            border-radius: 50px;
+            border-radius: 5px;
             cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Lora', serif;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            transition: transform 0.2s; 
+            transition: all 0.3s ease; 
         }
 
         #btnSi { 
             background: #ff4d6d; 
             color: white;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #btnSi:hover {
+            transform: scale(1.1);
+            background: #ff758f;
         }
 
         #btnNo { 
-            background: #6c757d; 
+            background: #343a40; 
             color: white; 
             position: absolute; 
             z-index: 101;
-            transition: 0.3s ease all;
         }
 
         .oculto { display: none; }
@@ -89,57 +95,61 @@
         }
 
         @keyframes lluvia {
-            to { transform: translateY(110vh); }
+            to { transform: translateY(110vh) rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
     <div class="card" id="contenedor">
-        <h1 id="titulo">¿Quieres ser mi San Valentín, Keyla?</h1>
+        <h1 id="titulo">¿Keyla, me harías el honor de ser mi San Valentín?</h1>
         <div class="botones">
-            <button id="btnSi">SÍ</button>
-            <button id="btnNo">NO</button>
+            <button id="btnSi">Por supuesto</button>
+            <button id="btnNo">No</button>
         </div>
     </div>
 
+    <audio id="miMusica" src="musica.mp3" loop></audio>
+
     <script>
-    const btnSi = document.getElementById('btnSi');
-    const btnNo = document.getElementById('btnNo');
-    const titulo = document.getElementById('titulo');
+        const btnSi = document.getElementById('btnSi');
+        const btnNo = document.getElementById('btnNo');
+        const titulo = document.getElementById('titulo');
+        const musica = document.getElementById('miMusica');
 
-    // Creamos el objeto de audio
-    // Puedes cambiar este link por el de cualquier canción que te guste (en formato .mp3)
-    const musica = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); 
-    musica.loop = true;
+        // Lógica del botón que huye
+        btnNo.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+            
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        });
 
-    btnNo.addEventListener('mouseover', () => {
-        const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
-        const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
-        btnNo.style.left = x + 'px';
-        btnNo.style.top = y + 'px';
-    });
+        // Respuesta al SI
+        btnSi.addEventListener('click', () => {
+            titulo.innerHTML = "¡Me haces el hombre más feliz! ❤️<br><small style='font-size: 15px;'>Nos vemos pronto.</small>";
+            btnNo.classList.add('oculto');
+            btnSi.classList.add('oculto');
+            
+            // Reproducir musica.mp3
+            musica.play().catch(e => console.error("Error al reproducir audio:", e));
+            
+            setInterval(crearCorazon, 250);
+        });
 
-    btnSi.addEventListener('click', () => {
-        titulo.innerHTML = "¡Sabía que dirías que sí! ❤️";
-        btnNo.classList.add('oculto');
-        btnSi.classList.add('oculto');
-        
-        // Reproducir música al aceptar
-        musica.play().catch(error => console.log("El navegador bloqueó el audio inicial:", error));
-        
-        setInterval(crearCorazon, 300);
-    });
+        function crearCorazon() {
+            const corazon = document.createElement('div');
+            corazon.classList.add('corazon');
+            const emojis = ['❤️', '💖', '✨', '🌸'];
+            corazon.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            corazon.style.left = Math.random() * 100 + 'vw';
+            corazon.style.animationDuration = Math.random() * 2 + 3 + 's';
+            corazon.style.opacity = Math.random();
+            document.body.appendChild(corazon);
 
-    function crearCorazon() {
-        const corazon = document.createElement('div');
-        corazon.classList.add('corazon');
-        corazon.innerHTML = '❤️';
-        corazon.style.left = Math.random() * 100 + 'vw';
-        corazon.style.animationDuration = Math.random() * 2 + 3 + 's';
-        document.body.appendChild(corazon);
-        setTimeout(() => corazon.remove(), 5000);
-    }
-</script>
+            setTimeout(() => { corazon.remove(); }, 5000);
+        }
+    </script>
 </body>
 </html>
